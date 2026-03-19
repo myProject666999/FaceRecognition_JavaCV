@@ -22,7 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Size;
 
@@ -117,8 +116,6 @@ public class SampleTraining {
 			
 			for(int i = faceUrls.size(), j = 0; i < files.length + faceUrls.size() && j < files.length; i++,j++) {
 				String fileUrl = parentDir + name + "_" + i + ".jpg";
-//				System.out.println(fileUrl);
-//				System.out.println(files[i].getAbsolutePath().replaceAll("[\\\\]", "/"));
 				String srcUrl = files[j].getAbsolutePath().replaceAll("[\\\\]", "/").trim();
 				
 				Mat mat = imread(srcUrl);
@@ -127,11 +124,7 @@ public class SampleTraining {
 				resize(mat, resizeMat, new Size(720, 1280));
 	            cvtColor(resizeMat, realMat, COLOR_BGRA2GRAY);
 	            equalizeHist(realMat, realMat);
-//				imshow("", resizeMat);
-//				waitKey(0);
-//				detectFace(new IplImage(resizeMat));		
-				IplImage src = new IplImage(realMat);
-				if(ImageUtil.dealSampleFaceImage(src, fileUrl)) {
+				if(ImageUtil.dealSampleFaceImage(realMat, fileUrl)) {
 					faceUrls.add(fileUrl);
 				}
 			}
