@@ -23,6 +23,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.bytedeco.javacpp.DoublePointer;
+import org.bytedeco.javacpp.IntPointer;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.MatVector;
 import org.bytedeco.javacpp.opencv_core.Point;
@@ -195,7 +197,10 @@ public class FaceRecognition {
 	 */
 	private static String compareFace(Mat testImage) {
 		if(testImage != null) {
-			int predictedLabel = faceRecognizer.predict(testImage);
+			IntPointer label = new IntPointer(1);
+			DoublePointer confidence = new DoublePointer(1);
+			faceRecognizer.predict(testImage, label, confidence);
+			int predictedLabel = label.get(0);
 	        System.out.println("名字: " + faceMap.get(predictedLabel));
 	        return  faceMap.get(predictedLabel);	
 		} else
