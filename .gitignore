@@ -3,3 +3,6 @@
 *.log
 .settings
 /bin/
+/target/
+/BIN/
+
